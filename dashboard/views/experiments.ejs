@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="https://kit.fontawesome.com/bdd89edb33.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900"
+      rel="stylesheet"
+    />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/experimentcard.css" />
+    <link rel="stylesheet" href="css/slider.css" />
+    <script src="sliders.js"></script>
+
+    <style>
+        body {
+            margin: 2em;
+            font-size: 1.5em;
+            font-family: 'Source Code Pro', 'Andale Mono', Monaco, 'Courier New', monospace;
+            background: linear-gradient(180deg,#DB302A 0%,#62186B 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #timer {
+            font-weight: bold;
+            right: 10px;
+            font-size: 20px;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            color: #363636;
+            font-family: monospace;
+            letter-spacing: 5px;
+            font-size: 36px;
+
+        }
+
+        #kp {
+            color: white;
+        }
+
+        .inputbox {
+            position: relative;
+            width: 75px;
+            height: 50px;
+            margin-bottom: 50px;
+        }
+
+        .inputbox input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            border: 2px solid #000;
+            outline: none;
+            background: none;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 1.2em;
+        }
+        
+        .inputbox:last-child {
+            margin-bottom: 0;
+        }
+
+        .inputbox span {
+            position: absolute;
+            top: 14px;
+            left: 20px;
+            font-size: 1em;
+            transition: 0.6s;
+            font-family: sans-serif;
+        }
+
+        .inputbox input:focus ~ span,
+        .inputbox input:valid ~ span {
+            transform: translateX(-13px) translateY(-35px);
+            font-size: 1em;
+        }
+
+        .inputbox [type="button"] {
+            width: 50%;
+            background: dodgerblue;
+            color: #fff;
+            border: #fff;
+        }
+        .inputbox:hover [type="button"] {
+            background: linear-gradient(45deg, greenyellow, dodgerblue);
+        }
+
+    </style>
+
+    <script>
+        
+        // Posting to Thingspeak...
+        function func()
+        {
+            var kp = document.getElementById("rangeRed").value;
+            var ki = document.getElementById("rangeGreen").value;
+            var kd = document.getElementById("rangeBlue").value;
+            var angle = document.getElementById("angle").value;
+
+            var url = "https://api.thingspeak.com/update?api_key=R7JVX7FT3I4RNARB&field1=" + kp + "&field2=" + ki + "&field3=" + kd + "&field4=" + angle;
+            
+            console.log(url);
+            $.post(url);
+            disableButton();
+        }
+
+        // Disable the button after clicking
+        function disableButton()
+        {
+            document.getElementById("b").disabled = true;
+            document.getElementById("b").style.backgroundColor = '#777';
+            document.getElementById("b").style.cursor = 'not-allowed';
+            document.getElementById("b").style.color = '#000';
+            setTimeout(function(){document.getElementById("b").disabled = false;
+            document.getElementById("b").style.backgroundColor = '#FFF';
+            document.getElementById("b").style.cursor = 'pointer';
+            document.getElementById("b").style.color = '#777';}, 40000);
+        }
+        
+    </script>
+</head>
+
+<body>
+    <div class="card__cta" style="text-align: left; position: absolute; top: 50px; right: 3px;">
+        <a href="javascript:profile()" class="btn btn--white" id="aa">Go Back</a>
+    </div>
+    <div
+        style="top: 10px; width: 400px; position: absolute; right: 5px; text-align: right; font-family: monospace; font-size: 20px;">
+        Session ends in: <span id="timer"></span></div>
+    </br>
+
+    <div style="top: 100px; left : 300px; padding-left: 30px; padding-right: 90px;">
+        <div class="card__side card__side--front-1" style="width: 500px; height: 500px; position: absolute; top: 200px; left: 200px;">
+            <div class="card__title card__title--1" style="height: 400px;">
+                <h4 class="card__heading">Live Stream</h4>
+                <iframe width="420" height="312"
+                    src="http://192.168.123.3/">
+                </iframe>
+            </div>
+        </div>
+    </div>
+       
+
+    <div style="top: 100px; left:1px ; padding-left: 30px; padding-right: 30px;">
+        <div class="card__side card__side--front-2" style="width: 500px; height: 500px; position: absolute; top: 200px; left: 1200px">
+            <div class="card__title card__title--2" style="height: 400px">
+                <h4 class="card__heading">Graph</h4>
+                <iframe width="450" height="260" style="border: 1px solid #cccccc;" 
+                    src="https://thingspeak.com/channels/1922375/charts/5?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15%22%3E">
+                </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="top: 100px; left:1px ; padding-left: 30px; padding-right: 30px;">
+        <div class="card__side card__side--front-3" style="width: 150px; height: 125px; position: absolute; top: 150px; left: 880px">
+            <div class="card__title card__title--3" style="height: 125px">
+                <form>
+                    <div class="inputbox">
+                      <input type="number" min="0" max="360" id="angle" required>
+                      <span>Angle</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class='sliders' style="position: absolute; top: 300px;">
+        <input type='range' , id='rangeRed' value='10' min='0' step="0.001" max='25' oninput="changeColor()"></input>
+        <div id='kp'>Kp: 10</div>
+        <input type='range' , id='rangeGreen' value='5' min='0' step="0.001" max='25' oninput="changeColor()"></input>
+        <div id='ki'>Ki: 5</div>
+        <input type='range' , id='rangeBlue' value='0.025' min='0' step="0.001" max='25' oninput="changeColor()"></input>
+        <div id='kd'>Kd: 0.025</div>
+    </div>
+
+
+    <div>
+        <button class="btn btn--white" id="b" onClick="func()" style="position: absolute; left: 880px; top: 680px;">Submit</button>
+    </div>
+
+    <div class="card__cta" style="position: absolute; top: 800px; color:burlywood; text-align: left;">
+        Instructions: 
+        <br>
+        > Go down in the live stream and start stream. Close the more options bar.
+        <br>
+        > Enter the angle you want the DC Motor to rotate to.
+        <br>
+        > Change the default Kp, Ki, Kd values if you wish and press submit. Wait for 40 seconds.
+        <br>
+        > See how it affects the DC Motor in real time :)
+    </div>
+</body>
+
+</html>
