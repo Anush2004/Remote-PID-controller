@@ -51,7 +51,7 @@ To run the project and use the software dashboard, please follow the instruction
    ```
 5. Access the software dashboard by opening a web browser and navigating to `http://localhost:3000` (assuming you have kept the default `PORT` value).
 
-## Feedback and Contributions
+## Feedbacks and Questions
 
 If you have any questions regarding the project, please feel free to contact any of the team members:
 
